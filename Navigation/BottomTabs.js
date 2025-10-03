@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../Screens/HomeScreen';
 import MapScreen from '../Screens/MapScreen';
 import SettingsScreen from '../Screens/SettingsScreen';
+import CalendarScreen from '../Screens/CalendarScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
@@ -13,21 +14,30 @@ export default function BottomTabs() {
     <Tab.Navigator
       initialRouteName="Map"
       screenOptions={({ route }) => ({
-        headerShown: false, // hide top header (si querés cabezal explícito, true)
+        headerShown: false,
         tabBarActiveTintColor: '#2f95dc',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: { height: 60, paddingBottom: 6 },
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ color, size }) => {
           let iconName;
-          if (route.name === 'Home') iconName = focused ? 'home' : 'home-outline';
-          else if (route.name === 'Map') iconName = focused ? 'map' : 'map-outline';
-          else if (route.name === 'Settings') iconName = focused ? 'settings' : 'settings-outline';
+
+          if (route.name === 'Home') {
+            iconName = 'home-outline';
+          } else if (route.name === 'Map') {
+            iconName = 'map-outline';
+          } else if (route.name === 'Calendar') {
+            iconName = 'calendar';   // 👈 siempre el mismo
+          } else if (route.name === 'Settings') {
+            iconName = 'settings-outline';
+          }
+
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
+      <Tab.Screen name="Calendar" component={CalendarScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
