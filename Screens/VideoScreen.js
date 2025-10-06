@@ -2,7 +2,7 @@ import { useEvent } from 'expo';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { StyleSheet, View, Button } from 'react-native';
 
-const videoSource = require('../Video.mp4')
+const videoSource = require('../assets/Video.mp4'); // Asegúrate de que la ruta sea correcta
 
 export default function VideoScreen() {
   const player = useVideoPlayer(videoSource, player => {
@@ -14,6 +14,7 @@ export default function VideoScreen() {
 
   return (
     <View style={styles.contentContainer}>
+      {/* Vista del video */}
       <VideoView
         style={styles.video}
         player={player}
@@ -22,7 +23,7 @@ export default function VideoScreen() {
       />
       <View style={styles.controlsContainer}>
         <Button
-          title={isPlaying ? 'Pause' : 'Play'}
+          title={isPlaying ? 'Pausar' : 'Reproducir'}
           onPress={() => {
             if (isPlaying) {
               player.pause();
@@ -30,6 +31,7 @@ export default function VideoScreen() {
               player.play();
             }
           }}
+          color={isPlaying ? '#e74c3c' : '#3498db'} // Cambiar el color del botón según el estado
         />
       </View>
     </View>
@@ -39,15 +41,21 @@ export default function VideoScreen() {
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#2c3e50', // Fondo oscuro para todo
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 16,
   },
   video: {
     width: '100%',
     height: 250,
+    overflow: 'hidden',
+    elevation: 5, // Elevación para dispositivos Android
   },
   controlsContainer: {
     marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

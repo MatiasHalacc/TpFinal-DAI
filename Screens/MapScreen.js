@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import { StyleSheet, View, ActivityIndicator, Text } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 
 export default function MapScreen() {
@@ -52,47 +52,64 @@ export default function MapScreen() {
     })();
   }, []);
 
-  if (!hasPermission) {
-    return <View style={styles.center}><ActivityIndicator size="large" color="blue" /></View>;
+  if (!hasPermission || !region) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#3498db" />
+        <Text style={styles.loadingText}>Cargando ubicación...</Text>
+      </View>
+    );
   }
 
   return (
     <View style={styles.container}>
-      {region ? (
-        <MapView
-          ref={mapRef}
-          style={styles.map}
-          initialRegion={region}
-          showsUserLocation={true}
-        >
-          {markers.map((m) => (
-            <Marker key={m.id} coordinate={m.coords} title={m.title} />
-          ))}
-        </MapView>
-      ) : (
-        <View style={styles.center}><ActivityIndicator size="large" color="blue" /></View>
-      )}
+      <MapView
+        ref={mapRef}
+        style={styles.map}
+        initialRegion={region}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        userLocationCallout={<Text style={styles.locationText}>Tu Ubicación</Text>}
+      >
+        {markers.map((m) => (
+          <Marker
+            key={m.id}
+            coordinate={m.coords}
+            title={m.title}
+            description={`Ubicación de: ${m.title}`}
+            pinColor="#e74c3c"
+          />
+        ))}
+      </MapView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: 
-  { 
+  container: {
     flex: 1,
-    justifyContent: "center",   // centra en altura
-    alignItems: "center",  
+    backgroundColor: "#ecf0f1",
   },
-  map: 
-  { 
-    width: 300,
-    height: 300,
-    alignSelf: "center",
+  map: {
+    flex: 1,
   },
-  center: { flex: 1, justifyContent: "center", alignItems: "center" },
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ecf0f1",
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 18,
+    color: "#3498db",
+    fontWeight: "500",
+  },
+  locationText: {
+    fontSize: 14,
+    color: "#2c3e50",
+    fontWeight: "600",
+  },
 });
-
-
-
-
 
