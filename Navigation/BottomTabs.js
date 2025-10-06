@@ -6,6 +6,7 @@ import MapScreen from '../Screens/MapScreen';
 import SettingsScreen from '../Screens/SettingsScreen';
 import CalendarScreen from '../Screens/CalendarScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import VideoScreen from '../Screens/VideoScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +27,9 @@ export default function BottomTabs() {
           } else if (route.name === 'Map') {
             iconName = 'map-outline';
           } else if (route.name === 'Calendar') {
-            iconName = 'calendar';   // 👈 siempre el mismo
+            iconName = 'calendar';   
+          } else if (route.name === 'Video') {
+              iconName = 'videocam-outline';  
           } else if (route.name === 'Settings') {
             iconName = 'settings-outline';
           }
@@ -38,6 +41,7 @@ export default function BottomTabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Calendar" component={CalendarScreen} />
+      <Tab.Screen name="Video" component={VideoScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
